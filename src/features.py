@@ -1,33 +1,28 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "bf20719a-98d3-4341-9776-18f5fd94f1b9",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.12.15"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+def build_pipeline(numeric_columns, categorical_columns):
+    """
+    Build reusable preprocessing for numeric and categorical features.
+    The target column must not be included in either column list.
+    """
+    numeric_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler()),
+    ])
+
+    categorical_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("encoder", OneHotEncoder(handle_unknown="ignore")),
+    ])
+
+    preprocessor = ColumnTransformer([
+        ("num", numeric_pipeline, numeric_columns),
+        ("cat", categorical_pipeline, categorical_columns),
+    ], remainder="drop")
+    return Pipeline([
+    ("preprocessor", preprocessor)
+])
