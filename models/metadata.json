@@ -1,0 +1,9 @@
+{
+    "pipeline_name": "cortexhr_attrition",
+    "version": "features-1.0.0",
+    "target_column": "left_within_12m",
+    "input_feature_count": 36,
+    "processed_feature_count": 136,
+    "numeric_feature_count": 30,
+    "categorial_feature_count": 6
+}

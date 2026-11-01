@@ -1,4 +1,4 @@
-﻿pandas
+pandas
 numpy
 matplotlib
 seaborn
@@ -8,3 +8,8 @@ scikit-learn
 scipy
 xlrd
 ipykernel
+fastapi
+pydantic
+uvicorn
+pytest
+httpx

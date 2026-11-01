@@ -6,3 +6,23 @@
 venv/
 .env
 data/
+
+# Python cache and temporary files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# Local environments and secrets
+.venv/
+venv/
+.env
+
+# Local trash
+.Trash-0/
+
+# Local mock data and API backups
+05_Starter/mock_services/mock_data/
+08_api/task9_backup/
