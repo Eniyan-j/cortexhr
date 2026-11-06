@@ -1,0 +1,9 @@
+Model,Evaluation,ROC-AUC,PR-AUC,Precision,Recall,F1,Accuracy,Brier Score,Log Loss
+Logistic Regression V1 (Own OOF),Own nested/out-of-fold evaluation,0.7017739760660711,0.2932261116698174,0.25806451612903225,0.5959885386819485,0.3601731601731602,0.6906655504395144,0.20628230536963807,0.6107772808673975
+XGBoost V2 Raw (Nested OOF),Own nested/out-of-fold evaluation,0.7222779369627508,0.34707055734611736,0.276536312849162,0.5673352435530086,0.37183098591549296,0.7199665131854333,0.19174713592485151,0.5675223134636322
+XGBoost V2 Sigmoid (Nested OOF),Own nested/out-of-fold evaluation,0.7229732007416148,0.35205337544824283,0.75,0.025787965616045846,0.04986149584487535,0.856425282544998,0.11204030276883725,0.3723255376717392
+Dummy (always stays),Official reference benchmark,0.5,0.146,0.0,0.0,0.0,0.854,,
+Logistic Regression (class_weight=balanced),Official reference benchmark,0.713,0.332,0.26,0.63,0.368,0.683,,
+"Decision Tree (depth 4, balanced)",Official reference benchmark,0.65,0.256,0.234,0.524,0.322,0.676,,
+"Random Forest (300 trees, balanced)",Official reference benchmark,0.715,0.336,0.523,0.089,0.151,0.854,,
+LEAKY Logistic Regression (adds exit information),Invalid - leakage,1.0,1.0,1.0,1.0,1.0,1.0,,

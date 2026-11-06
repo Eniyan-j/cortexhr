@@ -1,0 +1,6 @@
+resume_id,job_id,tfidf_similarity,required_skill_coverage,preferred_skill_coverage,experience_relevance,ranking_score,model_rank,human_suitability_score,shortlist,reviewer_note,shortlist_flag,model_e_rank,human_rank,error_type
+RES-0129,J02,0.09572903429399822,0.6,0.8,1.0,46.82916137175993,3,3,N,Partial match,False,3,4,False Positive
+RES-0119,J02,0.1765309188198736,0.6,0.2,0.9833333333333334,40.894570086128276,6,3,N,Partial match,False,4,4,False Positive
+RES-0077,J02,0.05765542739425759,0.4,0.0,0.9500000000000001,25.806217095770307,11,3,N,Partial match,False,5,4,False Positive
+RES-0012,J09,0.055199380306099284,0.4,0.25,1.0,29.95797521224397,19,5,Y,Strong match,True,19,1,False Negative
+RES-0088,J04,0.1038383116285393,1.0,0.4,0.9333333333333332,54.4868657984749,7,5,Y,Strong match,True,7,1,False Negative

@@ -14,7 +14,9 @@ from .schemas import (
     AnomalyResponse,
     PayrollBatchRequest,
     ChatRequest,
-    ChatResponse
+    ChatResponse,
+    ResumeRankRequest,
+    ResumeRankResponse
 )
 from .chatbot import CortexHRChatbot
 
@@ -27,12 +29,14 @@ async def lifespan(app: FastAPI):
     payroll_path = MODELS_DIR / "payroll_detector.joblib"
     reason_codes_path = MODELS_DIR / "reason_codes.joblib"
     chatbot_path = MODELS_DIR / "chatbot_bundle.joblib"
+    resume_ranking_path = MODELS_DIR / "resume_ranking_bundle.joblib"
     
     required_files = [
         attendance_path,
         payroll_path,
         reason_codes_path,
-        chatbot_path
+        chatbot_path,
+        resume_ranking_path
     ]
     for file in required_files:
         if not file.exists():
@@ -42,7 +46,8 @@ async def lifespan(app: FastAPI):
     app.state.artifacts = {
         "attendance": joblib.load(attendance_path),
         "payroll": joblib.load(payroll_path),
-        "reason_codes": joblib.load(reason_codes_path)
+        "reason_codes": joblib.load(reason_codes_path),
+        "resume_ranking": joblib.load(resume_ranking_path)
     }
     app.state.chatbot = CortexHRChatbot(chatbot_path)
     print("Chatbot artifacts loaded successfully.")   
@@ -435,3 +440,179 @@ def chat_endpoint(
         "intent": result.get("intent") or "unknown",
         "reply": result["reply"]
     }
+
+
+
+# ============================================================
+# TASK 11: RESUME RANKING ENDPOINT
+# ============================================================
+
+@app.post(
+    "/v1/resumes/rank",
+    response_model=ResumeRankResponse
+)
+def rank_resumes(
+    payload: ResumeRankRequest,
+    request: Request
+):
+
+    bundle = request.app.state.artifacts["resume_ranking"]
+
+    job_id = payload.job_id
+
+    # Validate job ID
+    if job_id not in bundle["jobs"]:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Job ID not found: {job_id}"
+        )
+
+    job = bundle["jobs"][job_id]
+
+    # Retrieve ranking records for the requested job
+    job_rankings = bundle["rankings"][
+        bundle["rankings"]["job_id"] == job_id
+    ].copy()
+
+    if job_rankings.empty:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No candidate rankings available for {job_id}"
+        )
+
+    # Sort candidates by ranking score
+    job_rankings = job_rankings.sort_values(
+        "ranking_score",
+        ascending=False,
+        kind="mergesort"
+    ).reset_index(drop=True)
+
+    # Prepare candidate profile lookup
+    candidate_profiles = bundle["candidates"].set_index(
+        "resume_id"
+    )
+
+    required_skills = set(job["required_skills"])
+    preferred_skills = set(job["preferred_skills"])
+
+    candidate_responses = []
+
+    # Return the requested number of candidates
+    for rank, (_, row) in enumerate(
+        job_rankings.head(payload.top_k).iterrows(),
+        start=1
+    ):
+
+        resume_id = row["resume_id"]
+
+        if resume_id not in candidate_profiles.index:
+            continue
+
+        profile = candidate_profiles.loc[resume_id]
+
+        candidate_skills = set(
+            profile["extracted_skills"]
+        )
+
+        matched_required = sorted(
+            candidate_skills.intersection(required_skills)
+        )
+
+        missing_required = sorted(
+            required_skills.difference(candidate_skills)
+        )
+
+        matched_preferred = sorted(
+            candidate_skills.intersection(preferred_skills)
+        )
+
+        # Explain the scoring components
+        explanations = [
+            (
+                f"Required skills matched: "
+                f"{len(matched_required)} of {len(required_skills)}."
+            ),
+            (
+                f"Preferred skills matched: "
+                f"{len(matched_preferred)} of {len(preferred_skills)}."
+            ),
+            (
+                f"Candidate experience: "
+                f"{float(profile['experience_years']):.1f} years; "
+                f"job minimum: {job['minimum_experience_years']:.1f} years."
+            ),
+            (
+                f"Text similarity contributed "
+                f"{float(row['tfidf_similarity']) * 100:.2f}% similarity."
+            )
+        ]
+
+        candidate_responses.append({
+
+            "rank": rank,
+
+            "resume_id": str(resume_id),
+
+            "candidate_title": str(
+                profile["candidate_title"]
+            ),
+
+            "experience_years": float(
+                profile["experience_years"]
+            ),
+
+            "extracted_skills": sorted(candidate_skills),
+
+            "ranking_score": float(
+                row["ranking_score"]
+            ),
+
+            "tfidf_similarity": float(
+                row["tfidf_similarity"]
+            ),
+
+            "required_skill_coverage": float(
+                row["required_skill_coverage"]
+            ),
+
+            "preferred_skill_coverage": float(
+                row["preferred_skill_coverage"]
+            ),
+
+            "experience_relevance": float(
+                row["experience_relevance"]
+            ),
+
+            "matched_required_skills": matched_required,
+
+            "missing_required_skills": missing_required,
+
+            "matched_preferred_skills": matched_preferred,
+
+            "explanation": explanations
+        })
+
+
+    return {
+
+        "job_id": job_id,
+
+        "job_title": job["job_title"],
+
+        "model_version": bundle["model_version"],
+
+        "total_candidates": len(job_rankings),
+
+        "returned_candidates": len(candidate_responses),
+
+        "scoring_weights": bundle["scoring_weights"],
+
+        "candidates": candidate_responses,
+
+        "score_interpretation": (
+            "Ranking score is a weighted matching score out of 100, "
+            "not a probability of hiring. It supports recruiter review "
+            "and must not replace human judgement."
+        )
+    }
+

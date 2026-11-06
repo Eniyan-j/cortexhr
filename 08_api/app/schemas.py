@@ -90,3 +90,77 @@ class ChatResponse(BaseModel):
 
     intent: str
     reply: str
+
+
+# ============================================================
+# TASK 11: RESUME RANKING API SCHEMAS
+# ============================================================
+
+class ResumeRankRequest(BaseModel):
+
+    model_config = ConfigDict(extra="forbid")
+
+    job_id: str = Field(
+        min_length=1,
+        max_length=20
+    )
+
+    top_k: int = Field(
+        default=5,
+        ge=1,
+        le=20
+    )
+
+
+class ResumeRankCandidate(BaseModel):
+
+    model_config = ConfigDict(extra="forbid")
+
+    rank: int = Field(ge=1)
+
+    resume_id: str
+
+    candidate_title: str
+
+    experience_years: float = Field(ge=0)
+
+    extracted_skills: list[str]
+
+    ranking_score: float = Field(ge=0, le=100)
+
+    tfidf_similarity: float = Field(ge=0, le=1)
+
+    required_skill_coverage: float = Field(ge=0, le=1)
+
+    preferred_skill_coverage: float = Field(ge=0, le=1)
+
+    experience_relevance: float = Field(ge=0, le=1)
+
+    matched_required_skills: list[str]
+
+    missing_required_skills: list[str]
+
+    matched_preferred_skills: list[str]
+
+    explanation: list[str]
+
+
+class ResumeRankResponse(BaseModel):
+
+    model_config = ConfigDict(extra="forbid")
+
+    job_id: str
+
+    job_title: str
+
+    model_version: str
+
+    total_candidates: int = Field(ge=0)
+
+    returned_candidates: int = Field(ge=0)
+
+    scoring_weights: dict[str, float]
+
+    candidates: list[ResumeRankCandidate]
+
+    score_interpretation: str

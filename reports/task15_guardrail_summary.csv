@@ -1,0 +1,6 @@
+metric,value
+Total recommendations,2934.0
+Guardrail-adjusted recommendations,1425.0
+Unadjusted recommendations,1509.0
+Adjustment percentage,48.57
+Invalid final recommendations,0.0

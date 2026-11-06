@@ -1,0 +1,55 @@
+
+TASK 14 — EXPLAINABLE ATTRITION RISK REPORTS
+
+Observation date: 2026-09-30
+Model: attrition-v2
+Model type: XGBoost with sigmoid calibration
+Employees scored: 430
+Model input features: 61
+
+FEATURE RECONSTRUCTION
+- 30 missing feature columns were reconstructed.
+- 11 attendance features and 14 payroll features were rebuilt
+  using the three complete calendar months before the observation month.
+- Duplicate employee-month records were averaged before monthly aggregation.
+- The reconstruction method was tested against September 2025
+  training observations.
+- All 25 features matched across 9,650 comparisons.
+- Five derived features followed the original Task 2 formulas.
+- The original workbook and Task 2 notebook were not modified.
+
+MISSING HISTORY
+- 395 employees had three months of prior history.
+- 10 employees had two months.
+- 8 employees had one month.
+- 17 employees had no eligible prior-month history.
+- Missing numeric values were handled by the fitted V2 median imputers.
+- No manual zero-filling was applied.
+
+RISK BANDS
+- High: top 10% of predicted risk scores.
+- Medium: next 20%.
+- Low: remaining 70%.
+- High: 43 employees.
+- Medium: 86 employees.
+- Low: 301 employees.
+- These are relative ranking bands, not validated intervention thresholds.
+
+SHAP EXPLANATIONS
+- TreeSHAP explains the underlying XGBoost raw model output.
+- Encoded categorical contributions were grouped by original feature.
+- Calibration direction was verified against the saved V2 model.
+- Three strongest absolute SHAP contributors were recorded per employee.
+- SHAP contributions describe model influences, not causal effects.
+
+TENURE FAIRNESS AUDIT
+- Descriptive predicted-risk and risk-band representation comparisons.
+- Mean predicted risk gap: 7.53 percentage points.
+- High-risk representation gap: 12.04 percentage points.
+- No observed future attrition outcomes are available for these
+  scoring employees; therefore this is not an error-rate fairness test.
+
+HUMAN REVIEW
+Predictions are decision-support signals only.
+HR must review individual circumstances and must not use scores
+as the sole basis for employment decisions.

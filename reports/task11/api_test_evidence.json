@@ -1,0 +1,262 @@
+{
+    "health_check": {
+        "status_code": 200,
+        "response": {
+            "status": "healthy",
+            "loaded_artifacts": [
+                "attendance",
+                "payroll",
+                "reason_codes",
+                "resume_ranking"
+            ]
+        }
+    },
+    "ranking_request": {
+        "method": "POST",
+        "endpoint": "/v1/resumes/rank",
+        "payload": {
+            "job_id": "J04",
+            "top_k": 5
+        }
+    },
+    "ranking_response": {
+        "status_code": 200,
+        "response": {
+            "job_id": "J04",
+            "job_title": "ML Engineer",
+            "model_version": "resume-ranker-1.0",
+            "total_candidates": 185,
+            "returned_candidates": 5,
+            "scoring_weights": {
+                "tfidf_similarity": 0.4,
+                "required_skill_coverage": 0.35,
+                "preferred_skill_coverage": 0.15,
+                "experience_relevance": 0.1
+            },
+            "candidates": [
+                {
+                    "rank": 1,
+                    "resume_id": "RES-0140",
+                    "candidate_title": "ML Engineer",
+                    "experience_years": 6.7,
+                    "extracted_skills": [
+                        "communication",
+                        "crm",
+                        "gst",
+                        "machine learning",
+                        "mlops",
+                        "model deployment",
+                        "nlp",
+                        "python",
+                        "pytorch",
+                        "scikit-learn",
+                        "sql",
+                        "tensorflow"
+                    ],
+                    "ranking_score": 63.08947777758487,
+                    "tfidf_similarity": 0.1522369444396218,
+                    "required_skill_coverage": 1.0,
+                    "preferred_skill_coverage": 0.8,
+                    "experience_relevance": 1.0,
+                    "matched_required_skills": [
+                        "machine learning",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql"
+                    ],
+                    "missing_required_skills": [],
+                    "matched_preferred_skills": [
+                        "mlops",
+                        "nlp",
+                        "pytorch",
+                        "tensorflow"
+                    ],
+                    "explanation": [
+                        "Required skills matched: 5 of 5.",
+                        "Preferred skills matched: 4 of 5.",
+                        "Candidate experience: 6.7 years; job minimum: 3.0 years.",
+                        "Text similarity contributed 15.22% similarity."
+                    ]
+                },
+                {
+                    "rank": 2,
+                    "resume_id": "RES-0031",
+                    "candidate_title": "ML Engineer",
+                    "experience_years": 4.3,
+                    "extracted_skills": [
+                        "b2b sales",
+                        "docker",
+                        "excel",
+                        "machine learning",
+                        "model deployment",
+                        "nlp",
+                        "python",
+                        "scikit-learn",
+                        "sql",
+                        "tensorflow"
+                    ],
+                    "ranking_score": 60.46917191693024,
+                    "tfidf_similarity": 0.1617292979232563,
+                    "required_skill_coverage": 1.0,
+                    "preferred_skill_coverage": 0.6,
+                    "experience_relevance": 1.0,
+                    "matched_required_skills": [
+                        "machine learning",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql"
+                    ],
+                    "missing_required_skills": [],
+                    "matched_preferred_skills": [
+                        "docker",
+                        "nlp",
+                        "tensorflow"
+                    ],
+                    "explanation": [
+                        "Required skills matched: 5 of 5.",
+                        "Preferred skills matched: 3 of 5.",
+                        "Candidate experience: 4.3 years; job minimum: 3.0 years.",
+                        "Text similarity contributed 16.17% similarity."
+                    ]
+                },
+                {
+                    "rank": 3,
+                    "resume_id": "RES-0066",
+                    "candidate_title": "ML Engineer",
+                    "experience_years": 4.2,
+                    "extracted_skills": [
+                        "b2b sales",
+                        "communication",
+                        "customer communication",
+                        "docker",
+                        "machine learning",
+                        "mlops",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql",
+                        "tensorflow"
+                    ],
+                    "ranking_score": 59.858230713722605,
+                    "tfidf_similarity": 0.14645576784306535,
+                    "required_skill_coverage": 1.0,
+                    "preferred_skill_coverage": 0.6,
+                    "experience_relevance": 1.0,
+                    "matched_required_skills": [
+                        "machine learning",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql"
+                    ],
+                    "missing_required_skills": [],
+                    "matched_preferred_skills": [
+                        "docker",
+                        "mlops",
+                        "tensorflow"
+                    ],
+                    "explanation": [
+                        "Required skills matched: 5 of 5.",
+                        "Preferred skills matched: 3 of 5.",
+                        "Candidate experience: 4.2 years; job minimum: 3.0 years.",
+                        "Text similarity contributed 14.65% similarity."
+                    ]
+                },
+                {
+                    "rank": 4,
+                    "resume_id": "RES-0178",
+                    "candidate_title": "ML Engineer",
+                    "experience_years": 4.2,
+                    "extracted_skills": [
+                        "b2b sales",
+                        "communication",
+                        "customer communication",
+                        "docker",
+                        "machine learning",
+                        "mlops",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql",
+                        "tensorflow"
+                    ],
+                    "ranking_score": 59.858230713722605,
+                    "tfidf_similarity": 0.14645576784306535,
+                    "required_skill_coverage": 1.0,
+                    "preferred_skill_coverage": 0.6,
+                    "experience_relevance": 1.0,
+                    "matched_required_skills": [
+                        "machine learning",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql"
+                    ],
+                    "missing_required_skills": [],
+                    "matched_preferred_skills": [
+                        "docker",
+                        "mlops",
+                        "tensorflow"
+                    ],
+                    "explanation": [
+                        "Required skills matched: 5 of 5.",
+                        "Preferred skills matched: 3 of 5.",
+                        "Candidate experience: 4.2 years; job minimum: 3.0 years.",
+                        "Text similarity contributed 14.65% similarity."
+                    ]
+                },
+                {
+                    "rank": 5,
+                    "resume_id": "RES-0001",
+                    "candidate_title": "ML Engineer",
+                    "experience_years": 4.8,
+                    "extracted_skills": [
+                        "communication",
+                        "machine learning",
+                        "mlops",
+                        "model deployment",
+                        "python",
+                        "pytorch",
+                        "scikit-learn",
+                        "sql",
+                        "system design",
+                        "tensorflow"
+                    ],
+                    "ranking_score": 59.728550559591056,
+                    "tfidf_similarity": 0.1432137639897765,
+                    "required_skill_coverage": 1.0,
+                    "preferred_skill_coverage": 0.6,
+                    "experience_relevance": 1.0,
+                    "matched_required_skills": [
+                        "machine learning",
+                        "model deployment",
+                        "python",
+                        "scikit-learn",
+                        "sql"
+                    ],
+                    "missing_required_skills": [],
+                    "matched_preferred_skills": [
+                        "mlops",
+                        "pytorch",
+                        "tensorflow"
+                    ],
+                    "explanation": [
+                        "Required skills matched: 5 of 5.",
+                        "Preferred skills matched: 3 of 5.",
+                        "Candidate experience: 4.8 years; job minimum: 3.0 years.",
+                        "Text similarity contributed 14.32% similarity."
+                    ]
+                }
+            ],
+            "score_interpretation": "Ranking score is a weighted matching score out of 100, not a probability of hiring. It supports recruiter review and must not replace human judgement."
+        }
+    },
+    "invalid_job_test": {
+        "status_code": 404,
+        "response": {
+            "detail": "Job ID not found: J99"
+        }
+    }
+}

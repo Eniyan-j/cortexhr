@@ -1,0 +1,5 @@
+tenure_group,employees,mean_predicted_risk,median_predicted_risk,high_risk_count,medium_risk_count,low_risk_count,high_risk_rate_pct,medium_risk_rate_pct,low_risk_rate_pct
+0–1 year,100,14.793379507217558,13.67502143132059,16,35,49,16.0,35.0,49.0
+1–3 years,129,11.38223612752664,9.22037809872128,15,27,87,11.63,20.93,67.44
+3–5 years,100,9.872749126965541,7.715663402370186,8,18,74,8.0,18.0,74.0
+5+ years,101,7.268156030444555,5.73991143149186,4,6,91,3.96,5.94,90.1
